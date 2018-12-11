@@ -8,7 +8,7 @@ import java.util.List;
 
 public class OSRMDistanceResponse implements DistanceResponse {
 
-    @SerializedName("distance_table")
+    @SerializedName("matrix")
     private final List<List<Integer>> distanceTable;
 
     public OSRMDistanceResponse(List<List<Integer>> distanceTable) {
