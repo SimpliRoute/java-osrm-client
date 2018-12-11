@@ -5,10 +5,12 @@ import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.OkHttpClient.Builder;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 public class OSRMClient {
@@ -27,7 +29,12 @@ public class OSRMClient {
     public OSRMDistanceResponse getDistanceMatrix(List<GeoLocation> locations) throws OptimizationDistanceMatrixException {
         OSRMDistanceResponse osrmDistanceResponse;
 
-        OkHttpClient client = new OkHttpClient();
+        Builder requestBuilder = new Builder();
+
+        requestBuilder.readTimeout(900000, TimeUnit.MILLISECONDS);
+        requestBuilder.writeTimeout(900000, TimeUnit.MILLISECONDS);
+
+        OkHttpClient client = requestBuilder.build();
 
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
 
