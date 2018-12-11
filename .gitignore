@@ -1,0 +1,11 @@
+.vscode
+.DS_Store
+.idea/
+.grade/
+optimizator.*
+.gradle/
+build/
+out/
+optimization.log
+optimization-web.log
+login.aws
