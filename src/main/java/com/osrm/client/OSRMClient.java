@@ -28,6 +28,7 @@ public class OSRMClient {
         HttpClient http = HttpClientBuilder.create().build();
 
         RequestBuilder builder = RequestBuilder.post(this.uri + "/table");
+        builder.addHeader("Content-Type", "charset=UTF-8");
 
         for (GeoLocation geoloc: locations) {
             builder.addParameter("loc", geoloc.getLatLongString());
