@@ -10,11 +10,11 @@ public class DistanceMatrix {
         this.matrix = new int[size][size];
     }
 
-    public void setValueAtCoord(int y, int x, int value) {
+    public void setValueAtCoord(int x, int y, int value) {
         this.matrix[x][y] = value;
     }
 
-    public int getValueAtCoord(int y, int x) {
+    public int getValueAtCoord(int x, int y) {
         return this.matrix[x][y];
     }
 
