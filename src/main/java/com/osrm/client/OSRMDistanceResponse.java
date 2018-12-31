@@ -20,18 +20,19 @@ public class OSRMDistanceResponse implements DistanceResponse {
     }
 
     public DistanceMatrix toDistanceMatrix() {
-        DistanceMatrix matrix = new DistanceMatrix(this.getDistanceTable().size());
-        int x = 0;
-        for (List<Integer> rows: this.getDistanceTable()) {
-            int y = 0;
-            for (Integer col: rows) {
-                matrix.setValueAtCoord(x, y, col);
-                y++;
+        DistanceMatrix matrix = new DistanceMatrix(getDistanceTable().size());
+        int i = 0;
+        for (List<Integer> rows : this.getDistanceTable()) {
+            int j = 0;
+            for (Integer col : rows) {
+                matrix.setValueAtCoord(i, j, col);
+                j++;
             }
-            x++;
+            i++;
         }
         return matrix;
     }
+
 
     public static OSRMDistanceResponse fromJSON (String json) {
         return new Gson().fromJson(json, OSRMDistanceResponse.class);
