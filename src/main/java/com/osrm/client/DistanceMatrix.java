@@ -20,15 +20,14 @@ public class DistanceMatrix {
 
     public List<List<Float>> asList(double fmv) {
         List<List<Float>> list =  new ArrayList<>();
-        for (int[] x : matrix) {
+        for (int x = 0; x < matrix.length; x++) {
             List<Float> row = new ArrayList<>();
-            for (int y: x) {
-                float distance = Float.MAX_VALUE;
+            for (int y = 0; y < matrix.length; y++) {
+                Float distance = Float.MAX_VALUE;
                 try {
-                    distance = Double.valueOf(y * fmv).floatValue();
-                }
-                catch (NumberFormatException ex) {
-                    ex.printStackTrace();
+                    distance = Double.valueOf(matrix[x][y] * fmv).floatValue();
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
                 }
                 row.add(distance);
             }
