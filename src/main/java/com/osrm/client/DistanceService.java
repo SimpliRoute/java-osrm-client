@@ -3,5 +3,5 @@ package com.osrm.client;
 import java.util.List;
 
 public interface DistanceService {
-    DistanceMatrix buildDistanceMatrix(List<GeoLocation> coordinates);
+    DistanceMatrix buildDistanceMatrix(List<GeoLocation> coordinates, double speedRate);
 }
