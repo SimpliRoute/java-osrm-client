@@ -18,7 +18,11 @@ public class Main {
         locations.add(geo3);
         locations.add(geo4);
 
-        OSRMDistanceResponse response = client.getDistanceMatrix(locations);
+        // low fmv
+        double speedRate = 2;
+
+        OSRMDistanceResponse response = client.getDistanceMatrix(locations, speedRate);
+
         System.out.println(response);
     }
 }
