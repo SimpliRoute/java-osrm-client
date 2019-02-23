@@ -18,14 +18,14 @@ public class DistanceMatrix {
         return this.matrix[x][y];
     }
 
-    public List<List<Float>> asList(double fmv) {
+    public List<List<Float>> asList() {
         List<List<Float>> list =  new ArrayList<>();
         for (int x = 0; x < matrix.length; x++) {
             List<Float> row = new ArrayList<>();
             for (int y = 0; y < matrix.length; y++) {
                 Float distance = Float.MAX_VALUE;
                 try {
-                    distance = Double.valueOf(matrix[x][y] * fmv).floatValue();
+                    distance = Double.valueOf(matrix[x][y]).floatValue();
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                 }
