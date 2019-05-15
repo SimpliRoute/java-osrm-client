@@ -26,7 +26,7 @@ public class OSRMClient {
     }
 
 
-    public OSRMDistanceResponse getDistanceMatrix(List<GeoLocation> locations, double speedRate) throws OptimizationDistanceMatrixException {
+    public OSRMDistanceResponse getDistanceMatrix(List<GeoLocation> locations, double speedRate, String country) throws OptimizationDistanceMatrixException {
         OSRMDistanceResponse osrmDistanceResponse;
 
         Builder requestBuilder = new Builder();
@@ -48,6 +48,7 @@ public class OSRMClient {
         String paramsString = String.join("&loc=", locationsCollection);
 
         paramsString += "&speedRate=" + speedRate;
+        paramsString += "&country=" + country;
 
         RequestBody body = RequestBody.create(mediaType, "loc=" + paramsString);
 

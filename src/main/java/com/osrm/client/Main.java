@@ -20,8 +20,9 @@ public class Main {
 
         // low fmv
         double speedRate = 2;
+        String country = "CL";
 
-        OSRMDistanceResponse response = client.getDistanceMatrix(locations, speedRate);
+        OSRMDistanceResponse response = client.getDistanceMatrix(locations, speedRate, country);
 
         System.out.println(response);
     }
