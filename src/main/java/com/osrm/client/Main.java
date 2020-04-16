@@ -22,7 +22,10 @@ public class Main {
         double speedRate = 2;
         String country = "CL";
 
-        OSRMDistanceResponse response = client.getDistanceMatrix(locations, speedRate, country);
+        // token
+        String token = "None";
+
+        OSRMDistanceResponse response = client.getDistanceMatrix(locations, speedRate, country, token);
 
         System.out.println(response);
     }
