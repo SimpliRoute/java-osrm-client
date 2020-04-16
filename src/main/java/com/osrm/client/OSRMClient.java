@@ -26,7 +26,7 @@ public class OSRMClient {
     }
 
 
-    public OSRMDistanceResponse getDistanceMatrix(List<GeoLocation> locations, double speedRate, String country) throws OptimizationDistanceMatrixException {
+    public OSRMDistanceResponse getDistanceMatrix(List<GeoLocation> locations, double speedRate, String country, String token) throws OptimizationDistanceMatrixException {
         OSRMDistanceResponse osrmDistanceResponse;
 
         Builder requestBuilder = new Builder();
@@ -56,6 +56,7 @@ public class OSRMClient {
                 .url(this.uri + "/table")
                 .post(body)
                 .addHeader("Content-Type", "application/x-www-form-urlencoded")
+                .addHeader("Authorization", String.format("Token %s", token))
                 .build();
 
         try {
