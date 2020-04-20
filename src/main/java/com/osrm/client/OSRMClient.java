@@ -56,7 +56,7 @@ public class OSRMClient {
                 .url(this.uri + "/table")
                 .post(body)
                 .addHeader("Content-Type", "application/x-www-form-urlencoded")
-                .addHeader("Authorization", String.format("Token %s", token))
+                .addHeader("Authorization", String.format(token))
                 .build();
 
         try {
