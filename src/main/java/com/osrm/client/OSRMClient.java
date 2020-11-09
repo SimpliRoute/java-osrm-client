@@ -70,7 +70,8 @@ public class OSRMClient {
             throw new OptimizationDistanceMatrixException("Error while connecting to osrm server");
         }
         catch (Exception e) {
-            log.error("Error osrm-client: ", e);
+            System.out.print("Error osrm-client: ");
+            System.out.print(e);
             throw new OptimizationDistanceMatrixException("Error request osrm");
         }
 
