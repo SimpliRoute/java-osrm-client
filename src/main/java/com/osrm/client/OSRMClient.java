@@ -12,8 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 public class OSRMClient {
+    private static final Logger log = LogManager.getLogger(OSRMClient.class);
+    
     private final String uri;
 
     public OSRMClient(String uri) throws EmptyUrlException {
@@ -63,15 +68,18 @@ public class OSRMClient {
             Response response = client.newCall(request).execute();
             String matrix = response.body().string();
             System.out.print("matrix:"+matrix);
+            log.info("matrix:"+matrix);
             osrmDistanceResponse = OSRMDistanceResponse.fromJSON(matrix);
         }
         catch(IOException e) {
             System.out.print(e.getMessage());
+            log.error("osrm-client IOException:", e);
             throw new OptimizationDistanceMatrixException("Error while connecting to osrm server");
         }
         catch (Exception e) {
             System.out.print("Error osrm-client: ");
             System.out.print(e);
+            log.error("Error osrm-client:", e);
             throw new OptimizationDistanceMatrixException("Error request osrm");
         }
 
