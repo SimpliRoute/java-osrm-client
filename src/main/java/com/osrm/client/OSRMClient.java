@@ -68,18 +68,18 @@ public class OSRMClient {
             Response response = client.newCall(request).execute();
             String matrix = response.body().string();
             System.out.print("matrix:"+matrix);
-            log.info("matrix:"+matrix);
+            log.info("matrix: {}",matrix);
             osrmDistanceResponse = OSRMDistanceResponse.fromJSON(matrix);
         }
         catch(IOException e) {
             System.out.print(e.getMessage());
-            log.error("osrm-client IOException:", e);
+            log.error("osrm-client IOException: {}", e);
             throw new OptimizationDistanceMatrixException("Error while connecting to osrm server");
         }
         catch (Exception e) {
             System.out.print("Error osrm-client: ");
             System.out.print(e);
-            log.error("Error osrm-client:", e);
+            log.error("Error osrm-client: {}", e);
             throw new OptimizationDistanceMatrixException("Error request osrm");
         }
 
