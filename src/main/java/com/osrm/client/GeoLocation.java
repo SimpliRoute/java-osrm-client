@@ -1,5 +1,7 @@
 package com.osrm.client;
 
+import com.google.common.base.Objects;
+
 public class GeoLocation {
     private final Double latitude;
     private final Double longitude;
@@ -23,7 +25,7 @@ public class GeoLocation {
 
     @Override
     public int hashCode() {
-        return latitude.hashCode() + longitude.hashCode();
+        return Objects.hashCode(this.getLatitude(), this.getLongitude());
     }
 
     @Override
