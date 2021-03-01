@@ -25,7 +25,7 @@ public class GeoLocation {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(this.getLatitude(), this.getLongitude());
+        return Objects.hashCode(this.getLatitude(), this.getLongitude())^ 0x12b7eff8;
     }
 
     @Override
