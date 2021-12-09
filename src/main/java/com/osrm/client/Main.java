@@ -25,7 +25,9 @@ public class Main {
         // token
         String token = "None";
 
-        OSRMDistanceResponse response = client.getDistanceMatrix(locations, speedRate, country, token);
+        String profile = "car";
+
+        OSRMDistanceResponse response = client.getDistanceMatrix(locations, speedRate, country, token, profile);
 
         System.out.println(response);
     }
