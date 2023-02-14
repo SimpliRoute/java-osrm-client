@@ -61,11 +61,17 @@ public class OSRMClient {
 
         try {
             Response response = client.newCall(request).execute();
+
+            if (!response.isSuccessful()) {
+                UnsuccessfulResponse unsuccessfulResponse = UnsuccessfulResponse.fromJSON(response.body().string());
+                throw new DistanceMatrixResponseException("OSRM Error: " + unsuccessfulResponse.getMessage());
+            }
+
             osrmDistanceResponse = OSRMDistanceResponse.fromJSON(response.body().string());
         }
         catch(Exception e) {
             System.out.print(e.getMessage());
-            throw new OptimizationDistanceMatrixException("Error while connecting to osrm server");
+            throw new OptimizationDistanceMatrixException("Error while connecting to OSRM Server");
         }
 
         return osrmDistanceResponse;
