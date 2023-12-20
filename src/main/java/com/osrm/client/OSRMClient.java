@@ -1,5 +1,8 @@
 package com.osrm.client;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -46,10 +49,7 @@ public class OSRMClient {
 
     paramsString += "&speedRate=" + speedRate;
     paramsString += "&country=" + country;
-
-    if (startTime != null && !startTime.isEmpty()) {
-      paramsString += "&start_time=" + startTime;
-    }
+    paramsString += encodeStartTime(startTime);
 
     RequestBody body = RequestBody.create(mediaType, "loc=" + paramsString);
 
@@ -77,6 +77,20 @@ public class OSRMClient {
     }
 
     throw new DistanceMatrixResponseException("OSRM Error: " + response);
+  }
+
+  private String encodeStartTime(String startTime) {
+    String paramsString = "";
+    if (startTime == null || startTime.isEmpty()) {
+      return paramsString;
+    }
+    try {
+      String encodedStartTime = URLEncoder.encode(startTime, StandardCharsets.UTF_8.toString());
+      paramsString += "&start_time=" + encodedStartTime;
+    } catch (Exception e){
+      throw new OptimizationDistanceMatrixException("Error while encoding startTime parameter");
+    }
+    return paramsString;
   }
 
   private UnsuccessfulResponse getUnsuccessfulResponse(Response response){
