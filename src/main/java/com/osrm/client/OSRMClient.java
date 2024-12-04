@@ -1,10 +1,12 @@
 package com.osrm.client;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -28,7 +30,7 @@ public class OSRMClient {
 
   public OSRMDistanceResponse getDistanceMatrix(List<GeoLocation> locations, double speedRate, String country,
                                                 String token, String profile,
-                                                String startTime) throws OptimizationDistanceMatrixException {
+                                                String options) throws OptimizationDistanceMatrixException {
     Builder requestBuilder = new Builder();
 
     requestBuilder.readTimeout(900000, TimeUnit.MILLISECONDS);
@@ -49,7 +51,7 @@ public class OSRMClient {
 
     paramsString += "&speedRate=" + speedRate;
     paramsString += "&country=" + country;
-    paramsString += encodeStartTime(startTime);
+    paramsString += encodeJsonToUrlParams(options);
 
     RequestBody body = RequestBody.create(mediaType, "loc=" + paramsString);
 
@@ -79,18 +81,21 @@ public class OSRMClient {
     throw new DistanceMatrixResponseException("OSRM Error: " + response);
   }
 
-  private String encodeStartTime(String startTime) {
-    String paramsString = "";
-    if (startTime == null || startTime.isEmpty()) {
-      return paramsString;
-    }
+  public static String encodeJsonToUrlParams(String options) {
+    ObjectMapper objectMapper = new ObjectMapper();
+    StringBuilder urlParams = new StringBuilder();
     try {
-      String encodedStartTime = URLEncoder.encode(startTime, StandardCharsets.UTF_8.toString());
-      paramsString += "&start_time=" + encodedStartTime;
-    } catch (Exception e){
-      throw new OptimizationDistanceMatrixException("Error while encoding startTime parameter");
+      Map<String, Object> map = objectMapper.readValue(options, Map.class);
+
+      for (Map.Entry<String, Object> entry : map.entrySet()) {
+        String key = URLEncoder.encode(entry.getKey(), StandardCharsets.UTF_8.toString());
+        String value = URLEncoder.encode(String.valueOf(entry.getValue()), StandardCharsets.UTF_8.toString());
+        urlParams.append("&").append(key).append("=").append(value);
+      }
+    }catch (Exception e) {
+      System.out.print("Error getUnsuccessfulResponse.fromJSON: " + e.getMessage());
     }
-    return paramsString;
+    return urlParams.toString();
   }
 
   private UnsuccessfulResponse getUnsuccessfulResponse(Response response){
