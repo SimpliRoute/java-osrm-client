@@ -1,13 +1,16 @@
 package com.osrm.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
+import com.osrm.client.exception.DistanceMatrixResponseException;
+import com.osrm.client.exception.EmptyUrlException;
+import com.osrm.client.exception.OptimizationDistanceMatrixException;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.OkHttpClient.Builder;
