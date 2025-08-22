@@ -1,11 +1,11 @@
 package com.osrm.client;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @Getter
-@RequiredArgsConstructor
+@Setter
 public class CostMatrices {
-  private final CostMatrix timeMatrix;
-  private final CostMatrix distanceMatrix;
+  private CostMatrix timeMatrix;
+  private CostMatrix distanceMatrix;
 }

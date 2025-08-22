@@ -1,20 +1,17 @@
 package com.osrm.client;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
 public class CostMatrix {
-    private final int[][] matrix;
+    private double[][] matrix;
 
-    public CostMatrix(int size) {
-        this.matrix = new int[size][size];
-    }
-
-    public void setValueAtCoord(int x, int y, int value) {
-        this.matrix[x][y] = value;
-    }
-
-    public int getValueAtCoord(int x, int y) {
+    public double getValueAtCoord(int x, int y) {
         return this.matrix[x][y];
     }
 
@@ -23,7 +20,7 @@ public class CostMatrix {
         for (int x = 0; x < matrix.length; x++) {
             List<Float> row = new ArrayList<>();
             for (int y = 0; y < matrix.length; y++) {
-                Float cost = Float.MAX_VALUE;
+                float cost = Float.MAX_VALUE;
                 try {
                     cost = Double.valueOf(matrix[x][y]).floatValue();
                 } catch (NumberFormatException e) {
