@@ -23,11 +23,11 @@ public class OSRMClient implements CostService {
   private static final String ENDPOINT_V2_TABLE = "/v2/table/";
 
   public OSRMClient(String uri) throws EmptyUrlException {
-    if (uri != null || !uri.isEmpty()) {
-      this.uri = uri;
-    } else {
+    if (!stringHasValue(uri)) {
       throw new EmptyUrlException("OSRMClient Constructor requires a OSRM http url");
     }
+
+    this.uri = uri;
   }
 
   @Override
@@ -79,6 +79,10 @@ public class OSRMClient implements CostService {
   }
 
   private String addParamString(String paramString, String key, String value) {
-    return (value != null) && (!value.equals("")) ? paramString.concat("&" + key + "=" + value) : paramString;
+    return stringHasValue(value) ? paramString.concat("&" + key + "=" + value) : paramString;
+  }
+
+  private boolean stringHasValue(String string) {
+    return (string != null) && (!string.equals(""));
   }
 }
