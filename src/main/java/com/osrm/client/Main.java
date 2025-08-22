@@ -1,4 +1,8 @@
 package com.osrm.client;
+import com.osrm.client.exception.EmptyUrlException;
+import com.osrm.client.request.CostMatricesRequest;
+import com.osrm.client.request.GeoLocation;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -6,32 +10,39 @@ public class Main {
     public static void main(String[] args) throws EmptyUrlException {
 
         try {
-            OSRMClient client = new OSRMClient("http://localhost:8008");
+            OSRMClient client = new OSRMClient("http://0.0.0.0:8080");
             List<GeoLocation> locations = new ArrayList<>();
 
-            GeoLocation geo1 = new GeoLocation(-33.416943, -70.60952);
-            GeoLocation geo2 = new GeoLocation(-33.416943, -70.60952);
-            GeoLocation geo3 = new GeoLocation(-33.4445755, -70.6404943);
-            GeoLocation geo4 = new GeoLocation(-33.4457167, -70.61926449999999);
+            GeoLocation geo1 = new GeoLocation(42.5434488, 1.4949332);
+            GeoLocation geo2 = new GeoLocation(42.5434488, 1.395);
 
             locations.add(geo1);
             locations.add(geo2);
-            locations.add(geo3);
-            locations.add(geo4);
 
             // low fmv
             double speedRate = 2;
-            String country = "CL";
+            String country = "AD";
 
             // token
-            String token = "None";
+            String token = "Token b926b46ddb8f5efab66693961369e0116712adde";
 
             String profile = "car";
 
-            OSRMDistanceResponse response = client.getDistanceMatrix(locations, speedRate, country, token, profile,
-                                                                     null);
+            String options = "{\"metrics\": \"time,distance\"}";
 
-            System.out.println(response);
+            CostMatricesRequest request = CostMatricesRequest.builder()
+                    .speedRate(speedRate)
+                    .country(country)
+                    .locations(locations)
+                    .token(token)
+                    .profile(profile)
+                    .metrics("time,distance")
+                    //.metrics("time")
+                    .build();
+
+            CostMatrices matrices = client.getCostMatrices(request);
+
+            System.out.println(matrices);
         }catch (Exception e){
             e.printStackTrace();
             System.out.println("End with errors.");
