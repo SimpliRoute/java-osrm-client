@@ -16,5 +16,5 @@ public class CostMatricesRequest {
   private final String startTime;
   private final String vehicleSubType;
   private final String restrictionOption;
-  private final String metrics;
+  private final boolean returnDistanceMatrix;
 }

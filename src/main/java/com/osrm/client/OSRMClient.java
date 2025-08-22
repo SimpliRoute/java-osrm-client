@@ -53,7 +53,10 @@ public class OSRMClient implements CostService {
     paramsString = addParamString(paramsString, "country", request.getCountry());
     paramsString = addParamString(paramsString, "start_time", request.getStartTime());
     paramsString = addParamString(paramsString, "vehicleSubType", request.getVehicleSubType());
-    paramsString = addParamString(paramsString, "metrics", request.getMetrics());
+
+    final String metricsParam = request.isReturnDistanceMatrix() ? "time,distance" : "time";
+
+    paramsString = addParamString(paramsString, "metrics", metricsParam);
     //TODO:423 pending implement vehicular restriction
 
     RequestBody body = RequestBody.create(mediaType, "loc=" + paramsString);

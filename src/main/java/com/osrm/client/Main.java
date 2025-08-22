@@ -28,16 +28,13 @@ public class Main {
 
             String profile = "car";
 
-            String options = "{\"metrics\": \"time,distance\"}";
-
             CostMatricesRequest request = CostMatricesRequest.builder()
                     .speedRate(speedRate)
                     .country(country)
                     .locations(locations)
                     .token(token)
                     .profile(profile)
-                    .metrics("time,distance")
-                    //.metrics("time")
+                    .returnDistanceMatrix(true)
                     .build();
 
             CostMatrices matrices = client.getCostMatrices(request);
