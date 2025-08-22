@@ -3,10 +3,10 @@ package com.osrm.client;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DistanceMatrix {
+public class CostMatrix {
     private int[][] matrix;
 
-    public DistanceMatrix(int size) {
+    public CostMatrix(int size) {
         this.matrix = new int[size][size];
     }
 
@@ -23,13 +23,13 @@ public class DistanceMatrix {
         for (int x = 0; x < matrix.length; x++) {
             List<Float> row = new ArrayList<>();
             for (int y = 0; y < matrix.length; y++) {
-                Float distance = Float.MAX_VALUE;
+                Float cost = Float.MAX_VALUE;
                 try {
-                    distance = Double.valueOf(matrix[x][y]).floatValue();
+                    cost = Double.valueOf(matrix[x][y]).floatValue();
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                 }
-                row.add(distance);
+                row.add(cost);
             }
             list.add(row);
         }

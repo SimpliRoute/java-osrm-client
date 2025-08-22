@@ -31,9 +31,9 @@ public class OSRMClient {
   }
 
 
-  public OSRMDistanceResponse getDistanceMatrix(List<GeoLocation> locations, double speedRate, String country,
-                                                String token, String profile,
-                                                String options) throws OptimizationDistanceMatrixException {
+  public OSRMCostMatrixResponse getDistanceMatrix(List<GeoLocation> locations, double speedRate, String country,
+                                                  String token, String profile,
+                                                  String options) throws OptimizationDistanceMatrixException {
     Builder requestBuilder = new Builder();
 
     requestBuilder.readTimeout(900000, TimeUnit.MILLISECONDS);
@@ -69,7 +69,7 @@ public class OSRMClient {
     try {
       response = client.newCall(request).execute();
       if (response.isSuccessful()) {
-        return OSRMDistanceResponse.fromJSON(response.body().string());
+        return OSRMCostMatrixResponse.fromJSON(response.body().string());
       }
     } catch (Exception e) {
       System.out.print(e.getMessage());
