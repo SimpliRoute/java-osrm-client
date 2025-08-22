@@ -12,4 +12,8 @@ public class CostMatricesRequest {
   private final String token;
   private final String profile;
   private final String options;
+  private final String startTime;
+  private final String vehicleSubType;
+  private final String restrictionOption;
+  private final String metrics;
 }
