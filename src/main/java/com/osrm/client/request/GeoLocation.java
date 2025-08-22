@@ -1,23 +1,14 @@
-package com.osrm.client;
+package com.osrm.client.request;
 
 import com.google.common.base.Objects;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
+@Getter
+@RequiredArgsConstructor
 public class GeoLocation {
     private final Double latitude;
     private final Double longitude;
-
-    public GeoLocation (Double latitude, Double longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
-
-    public Double getLatitude() {
-        return this.latitude;
-    }
-
-    public Double getLongitude() {
-        return this.longitude;
-    }
 
     public String getLatLongString() {
         return this.getLatitude() + "," + this.getLongitude();

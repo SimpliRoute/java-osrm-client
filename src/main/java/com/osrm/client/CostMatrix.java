@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CostMatrix {
-    private int[][] matrix;
+    private final int[][] matrix;
 
     public CostMatrix(int size) {
         this.matrix = new int[size][size];

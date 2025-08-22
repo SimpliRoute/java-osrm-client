@@ -2,22 +2,16 @@ package com.osrm.client;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-
-public class OSRMCostMatrixResponse implements CostMatrixResponse {
-
+@Getter
+@RequiredArgsConstructor
+class OSRMCostMatrixResponse implements CostMatrixResponse {
     @SerializedName("matrix")
     private final List<List<Integer>> costTable;
-
-    public OSRMCostMatrixResponse(List<List<Integer>> costTable) {
-        this.costTable = costTable;
-    }
-
-    private List<List<Integer>> getCostTable() {
-        return costTable;
-    }
 
     public CostMatrix toCostMatrix() {
         CostMatrix matrix = new CostMatrix(getCostTable().size());
@@ -32,7 +26,6 @@ public class OSRMCostMatrixResponse implements CostMatrixResponse {
         }
         return matrix;
     }
-
 
     public static OSRMCostMatrixResponse fromJSON (String json) {
         return new Gson().fromJson(json, OSRMCostMatrixResponse.class);
