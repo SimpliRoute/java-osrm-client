@@ -9,10 +9,13 @@ import java.util.List;
 @Getter
 @Setter
 public class CostMatrix {
-    private double[][] matrix;
+    private int[][] matrix;
 
     public double getValueAtCoord(int x, int y) {
         return this.matrix[x][y];
+    }
+    public void setValueAtCoord(int x, int y, int value) {
+        this.matrix[x][y] = value;
     }
 
     public List<List<Float>> asList() {
