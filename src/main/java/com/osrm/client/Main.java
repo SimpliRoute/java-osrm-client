@@ -24,7 +24,7 @@ public class Main {
             String country = "AD";
 
             // token
-            String token = "Token b926b46ddb8f5efab66693961369e0116712adde";
+            String token = "Token TUTOKEN";
 
             String profile = "car";
 
