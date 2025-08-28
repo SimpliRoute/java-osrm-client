@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import com.osrm.client.exception.EmptyUrlException;
@@ -57,7 +58,10 @@ public class OSRMClient implements CostService {
     final String metricsParam = request.isReturnDistanceMatrix() ? "time,distance" : "time";
 
     paramsString = addParamString(paramsString, "metrics", metricsParam);
-    //TODO:423 pending implement vehicular restriction
+
+    for (Map.Entry<String, Object> paramEntry : request.getCustomParameters().entrySet()) {
+      paramsString = addParamString(paramsString, paramEntry.getKey(), paramEntry.getValue().toString());
+    }
 
     RequestBody body = RequestBody.create(mediaType, "loc=" + paramsString);
 
