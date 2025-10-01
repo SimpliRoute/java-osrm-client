@@ -54,6 +54,7 @@ public class OSRMClient implements CostService {
     paramsString = addParamString(paramsString, "country", request.getCountry());
     paramsString = addParamString(paramsString, "start_time", request.getStartTime());
     paramsString = addParamString(paramsString, "vehicleSubType", request.getVehicleSubType());
+    paramsString = addParamString(paramsString, "restriction", request.getRestrictionOption());
 
     final String metricsParam = request.isReturnDistanceMatrix() ? "time,distance" : "time";
 
