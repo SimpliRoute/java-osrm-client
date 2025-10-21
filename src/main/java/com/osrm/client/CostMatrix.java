@@ -1,21 +1,21 @@
 package com.osrm.client;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class DistanceMatrix {
+@Getter
+@Setter
+public class CostMatrix {
     private int[][] matrix;
 
-    public DistanceMatrix(int size) {
-        this.matrix = new int[size][size];
+    public double getValueAtCoord(int x, int y) {
+        return this.matrix[x][y];
     }
-
     public void setValueAtCoord(int x, int y, int value) {
         this.matrix[x][y] = value;
-    }
-
-    public int getValueAtCoord(int x, int y) {
-        return this.matrix[x][y];
     }
 
     public List<List<Float>> asList() {
@@ -23,13 +23,13 @@ public class DistanceMatrix {
         for (int x = 0; x < matrix.length; x++) {
             List<Float> row = new ArrayList<>();
             for (int y = 0; y < matrix.length; y++) {
-                Float distance = Float.MAX_VALUE;
+                float cost = Float.MAX_VALUE;
                 try {
-                    distance = Double.valueOf(matrix[x][y]).floatValue();
+                    cost = Double.valueOf(matrix[x][y]).floatValue();
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                 }
-                row.add(distance);
+                row.add(cost);
             }
             list.add(row);
         }

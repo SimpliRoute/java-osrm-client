@@ -1,4 +1,4 @@
-package com.osrm.client;
+package com.osrm.client.exception;
 
 public class EmptyUrlException extends Exception {
     public EmptyUrlException(String message) {
