@@ -3,6 +3,7 @@ import com.osrm.client.exception.EmptyUrlException;
 import com.osrm.client.request.CostMatricesRequest;
 import com.osrm.client.request.GeoLocation;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -35,6 +36,8 @@ public class Main {
                     .token(token)
                     .profile(profile)
                     .returnDistanceMatrix(true)
+                    .startTime("2025-11-12T09:00:00+00:00")
+                    .customParameters(Collections.emptyMap())
                     .build();
 
             CostMatrices matrices = client.getCostMatrices(request);
