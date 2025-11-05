@@ -2,6 +2,8 @@ package com.osrm.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +54,15 @@ public class OSRMClient implements CostService {
 
     paramsString = addParamString(paramsString, "speedRate", Double.toString(request.getSpeedRate()));
     paramsString = addParamString(paramsString, "country", request.getCountry());
-    paramsString = addParamString(paramsString, "start_time", request.getStartTime());
+
+    try {
+      final String startTime = request.getStartTime();
+      if (startTime != null) {
+        paramsString = addParamString(paramsString, "start_time", URLEncoder.encode(startTime, StandardCharsets.UTF_8.toString()));
+      }
+    } catch (Exception e) {
+      throw new OSRMClientException("Error encoding start_time");
+    }
     paramsString = addParamString(paramsString, "vehicleSubType", request.getVehicleSubType());
     paramsString = addParamString(paramsString, "restriction", request.getRestrictionOption());
 
