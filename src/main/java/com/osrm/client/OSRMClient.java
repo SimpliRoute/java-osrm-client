@@ -22,6 +22,11 @@ import okhttp3.Response;
 
 
 public class OSRMClient implements CostService {
+  static final OkHttpClient HTTP_CLIENT = new Builder()
+      .readTimeout(900000, TimeUnit.MILLISECONDS)
+      .writeTimeout(900000, TimeUnit.MILLISECONDS)
+      .build();
+
   private final String uri;
   private static final String ENDPOINT_V2_TABLE = "/v2/table/";
 
@@ -35,13 +40,6 @@ public class OSRMClient implements CostService {
 
   @Override
   public CostMatrices getCostMatrices(CostMatricesRequest request) {
-    Builder requestBuilder = new Builder();
-
-    requestBuilder.readTimeout(900000, TimeUnit.MILLISECONDS);
-    requestBuilder.writeTimeout(900000, TimeUnit.MILLISECONDS);
-
-    OkHttpClient client = requestBuilder.build();
-
     MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
 
     List<String> locationsCollection = new ArrayList<>();
@@ -84,7 +82,7 @@ public class OSRMClient implements CostService {
             .build();
 
     try {
-      Response response = client.newCall(osrmRequest).execute();
+      Response response = HTTP_CLIENT.newCall(osrmRequest).execute();
 
       ObjectMapper mapper = new ObjectMapper();
       return mapper.readValue(response.body().string(), CostMatrices.class);
