@@ -17,6 +17,11 @@ import okhttp3.Response;
 
 
 public class OSRMClient {
+  static final OkHttpClient HTTP_CLIENT = new Builder()
+      .readTimeout(900000, TimeUnit.MILLISECONDS)
+      .writeTimeout(900000, TimeUnit.MILLISECONDS)
+      .build();
+
   private final String uri;
 
   public OSRMClient(String uri) throws EmptyUrlException {
@@ -31,13 +36,6 @@ public class OSRMClient {
   public OSRMDistanceResponse getDistanceMatrix(List<GeoLocation> locations, double speedRate, String country,
                                                 String token, String profile,
                                                 String options) throws OptimizationDistanceMatrixException {
-    Builder requestBuilder = new Builder();
-
-    requestBuilder.readTimeout(900000, TimeUnit.MILLISECONDS);
-    requestBuilder.writeTimeout(900000, TimeUnit.MILLISECONDS);
-
-    OkHttpClient client = requestBuilder.build();
-
     MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
 
     List<String> locationsCollection = new ArrayList<>();
@@ -64,7 +62,7 @@ public class OSRMClient {
 
     Response response;
     try {
-      response = client.newCall(request).execute();
+      response = HTTP_CLIENT.newCall(request).execute();
       if (response.isSuccessful()) {
         return OSRMDistanceResponse.fromJSON(response.body().string());
       }
