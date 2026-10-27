@@ -87,9 +87,7 @@ public class OSRMClient implements CostService {
             .addHeader("Authorization", request.getToken())
             .build();
 
-    try {
-      Response response = httpClient().newCall(osrmRequest).execute();
-
+    try (Response response = httpClient().newCall(osrmRequest).execute()) {
       ObjectMapper mapper = new ObjectMapper();
       return mapper.readValue(response.body().string(), CostMatrices.class);
     } catch (Exception e) {
