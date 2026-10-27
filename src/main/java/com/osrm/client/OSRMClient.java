@@ -22,10 +22,16 @@ import okhttp3.Response;
 
 
 public class OSRMClient implements CostService {
-  static final OkHttpClient HTTP_CLIENT = new Builder()
-      .readTimeout(900000, TimeUnit.MILLISECONDS)
-      .writeTimeout(900000, TimeUnit.MILLISECONDS)
-      .build();
+  private static class HttpClientHolder {
+    static final OkHttpClient INSTANCE = new Builder()
+        .readTimeout(900000, TimeUnit.MILLISECONDS)
+        .writeTimeout(900000, TimeUnit.MILLISECONDS)
+        .build();
+  }
+
+  static OkHttpClient httpClient() {
+    return HttpClientHolder.INSTANCE;
+  }
 
   private final String uri;
   private static final String ENDPOINT_V2_TABLE = "/v2/table/";
@@ -82,7 +88,7 @@ public class OSRMClient implements CostService {
             .build();
 
     try {
-      Response response = HTTP_CLIENT.newCall(osrmRequest).execute();
+      Response response = httpClient().newCall(osrmRequest).execute();
 
       ObjectMapper mapper = new ObjectMapper();
       return mapper.readValue(response.body().string(), CostMatrices.class);

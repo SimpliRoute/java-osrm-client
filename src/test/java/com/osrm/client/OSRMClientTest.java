@@ -35,12 +35,12 @@ public class OSRMClientTest {
           .profile("car")
           .customParameters(Collections.emptyMap())
           .build();
-      OSRMClient.HTTP_CLIENT.connectionPool().evictAll();
+      OSRMClient.httpClient().connectionPool().evictAll();
 
       new OSRMClient(uri).getCostMatrices(request);
       new OSRMClient(uri).getCostMatrices(request);
 
-      assertEquals(1, OSRMClient.HTTP_CLIENT.connectionPool().connectionCount());
+      assertEquals(1, OSRMClient.httpClient().connectionPool().connectionCount());
     } finally {
       server.stop(0);
     }
