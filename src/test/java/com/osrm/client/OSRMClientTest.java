@@ -26,12 +26,12 @@ public class OSRMClientTest {
     try {
       String uri = "http://127.0.0.1:" + server.getAddress().getPort();
       List<GeoLocation> locations = Arrays.asList(new GeoLocation(-33.4, -70.6), new GeoLocation(-33.5, -70.7));
-      OSRMClient.HTTP_CLIENT.connectionPool().evictAll();
+      OSRMClient.httpClient().connectionPool().evictAll();
 
       new OSRMClient(uri).getDistanceMatrix(locations, 1.0, "CL", "token", "car", "{}");
       new OSRMClient(uri).getDistanceMatrix(locations, 1.0, "CL", "token", "car", "{}");
 
-      assertEquals(1, OSRMClient.HTTP_CLIENT.connectionPool().connectionCount());
+      assertEquals(1, OSRMClient.httpClient().connectionPool().connectionCount());
     } finally {
       server.stop(0);
     }

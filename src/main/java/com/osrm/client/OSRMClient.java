@@ -17,10 +17,16 @@ import okhttp3.Response;
 
 
 public class OSRMClient {
-  static final OkHttpClient HTTP_CLIENT = new Builder()
-      .readTimeout(900000, TimeUnit.MILLISECONDS)
-      .writeTimeout(900000, TimeUnit.MILLISECONDS)
-      .build();
+  private static class HttpClientHolder {
+    static final OkHttpClient INSTANCE = new Builder()
+        .readTimeout(900000, TimeUnit.MILLISECONDS)
+        .writeTimeout(900000, TimeUnit.MILLISECONDS)
+        .build();
+  }
+
+  static OkHttpClient httpClient() {
+    return HttpClientHolder.INSTANCE;
+  }
 
   private final String uri;
 
@@ -62,7 +68,7 @@ public class OSRMClient {
 
     Response response;
     try {
-      response = HTTP_CLIENT.newCall(request).execute();
+      response = httpClient().newCall(request).execute();
       if (response.isSuccessful()) {
         return OSRMDistanceResponse.fromJSON(response.body().string());
       }
