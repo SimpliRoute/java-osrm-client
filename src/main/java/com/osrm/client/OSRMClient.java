@@ -66,23 +66,29 @@ public class OSRMClient {
         .addHeader("Authorization", token)
         .build();
 
-    Response response;
+    Response response = null;
     try {
-      response = httpClient().newCall(request).execute();
-      if (response.isSuccessful()) {
-        return OSRMDistanceResponse.fromJSON(response.body().string());
+      try {
+        response = httpClient().newCall(request).execute();
+        if (response.isSuccessful()) {
+          return OSRMDistanceResponse.fromJSON(response.body().string());
+        }
+      } catch (Exception e) {
+        System.out.print(e.getMessage());
+        throw new OptimizationDistanceMatrixException("Error while connecting to OSRM Server");
       }
-    } catch (Exception e) {
-      System.out.print(e.getMessage());
-      throw new OptimizationDistanceMatrixException("Error while connecting to OSRM Server");
-    }
 
-    UnsuccessfulResponse unsuccessfulResponse = this.getUnsuccessfulResponse(response);
-    if (unsuccessfulResponse != null && unsuccessfulResponse.getMessage() != null) {
-      throw new DistanceMatrixResponseException("OSRM Error: " + unsuccessfulResponse.getMessage());
-    }
+      UnsuccessfulResponse unsuccessfulResponse = this.getUnsuccessfulResponse(response);
+      if (unsuccessfulResponse != null && unsuccessfulResponse.getMessage() != null) {
+        throw new DistanceMatrixResponseException("OSRM Error: " + unsuccessfulResponse.getMessage());
+      }
 
-    throw new DistanceMatrixResponseException("OSRM Error: " + response);
+      throw new DistanceMatrixResponseException("OSRM Error: " + response);
+    } finally {
+      if (response != null) {
+        response.close();
+      }
+    }
   }
 
   public static String encodeJsonToUrlParams(String options) {
