@@ -21,6 +21,14 @@ public class GeoLocation {
 
     @Override
     public boolean equals(Object obj) {
-        return (this.hashCode() == obj.hashCode());
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof GeoLocation)) {
+            return false;
+        }
+        GeoLocation other = (GeoLocation) obj;
+        return Objects.equal(this.getLatitude(), other.getLatitude())
+                && Objects.equal(this.getLongitude(), other.getLongitude());
     }
 }
