@@ -22,7 +22,7 @@ public class CostMatrix {
         List<List<Float>> list =  new ArrayList<>();
         for (int x = 0; x < matrix.length; x++) {
             List<Float> row = new ArrayList<>();
-            for (int y = 0; y < matrix.length; y++) {
+            for (int y = 0; y < matrix[x].length; y++) {
                 float cost = Float.MAX_VALUE;
                 try {
                     cost = Double.valueOf(matrix[x][y]).floatValue();

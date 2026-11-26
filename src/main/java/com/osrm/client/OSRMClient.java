@@ -74,8 +74,18 @@ public class OSRMClient implements CostService {
 
     paramsString = addParamString(paramsString, "metrics", metricsParam);
 
-    for (Map.Entry<String, Object> paramEntry : request.getCustomParameters().entrySet()) {
-      paramsString = addParamString(paramsString, paramEntry.getKey(), paramEntry.getValue().toString());
+    if (request.getCustomParameters() != null) {
+      try {
+        for (Map.Entry<String, Object> paramEntry : request.getCustomParameters().entrySet()) {
+          if (paramEntry.getKey() != null && paramEntry.getValue() != null) {
+            String encodedKey = URLEncoder.encode(paramEntry.getKey(), StandardCharsets.UTF_8.toString());
+            String encodedValue = URLEncoder.encode(paramEntry.getValue().toString(), StandardCharsets.UTF_8.toString());
+            paramsString = addParamString(paramsString, encodedKey, encodedValue);
+          }
+        }
+      } catch (Exception e) {
+        throw new OSRMClientException("Error encoding custom parameters");
+      }
     }
 
     RequestBody body = RequestBody.create(mediaType, "loc=" + paramsString);
@@ -88,8 +98,13 @@ public class OSRMClient implements CostService {
             .build();
 
     try (Response response = httpClient().newCall(osrmRequest).execute()) {
+      if (!response.isSuccessful() || response.body() == null) {
+        throw new OSRMClientException("Unsuccessful response from OSRM Server: HTTP " + response.code());
+      }
       ObjectMapper mapper = new ObjectMapper();
       return mapper.readValue(response.body().string(), CostMatrices.class);
+    } catch (OSRMClientException e) {
+      throw e;
     } catch (Exception e) {
       throw new OSRMClientException("Error while connecting to OSRM Server");
     }
